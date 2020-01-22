@@ -1,0 +1,26 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_SETTINGS}</h1>
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+    <fieldset>
+        <dl>
+            <dt><label for="doublespark_contaobridge_contao_url">{L_ACP_CONTAOBRIDGE_CONTAO_URL}</label></dt>
+            <dd><input id="doublespark_contaobridge_contao_url" type="text" name="doublespark_contaobridge_contao_url" value="{CONTAOBRIDGE_CONTAO_URL}"/></dd>
+        </dl>
+
+        <dl>
+            <dt><label for="doublespark_contaobridge_secret_key">{L_ACP_CONTAOBRIDGE_SECRET_KEY}</label></dt>
+            <dd><input id="doublespark_contaobridge_secret_key" type="text" name="doublespark_contaobridge_secret_key" value="{CONTAOBRIDGE_SECRET_KEY}"/></dd>
+        </dl>
+
+        <p class="submit-buttons">
+            <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+        </p>
+
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

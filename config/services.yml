@@ -1,0 +1,18 @@
+services:
+  doublespark.contaobridge.main_listener:
+    class: doublespark\contaobridge\event\main_listener
+    arguments:
+      - '@request'
+      - '@user'
+      - '@auth'
+      - '@dbal.conn'
+    tags:
+      - { name: event.listener }
+  doublespark.contaobridge.redirect_listener:
+    class: doublespark\contaobridge\event\redirect_listener
+    arguments:
+      - '@request'
+      - '@user'
+      - '@config'
+    tags:
+      - { name: event.listener }
