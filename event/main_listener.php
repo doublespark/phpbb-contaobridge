@@ -84,12 +84,12 @@ class main_listener implements EventSubscriberInterface
             return;
         }
 
-        $contaoUserId = $this->request->raw_variable('phpbridgeuid',0, request_interface::COOKIE);
+        $sessionKey = $this->request->raw_variable('phpbridgeuid','', request_interface::COOKIE);
 
-        // If this is greater than 0 we potentially have a logged-in Contao member
-        if($contaoUserId > 0)
+        // If this isn't empty
+        if(!empty($sessionKey))
         {
-            $sql = 'SELECT tl_phpbb_session.last_active, tl_phpbb_session.ip_address, tl_member.phpbb_user_id FROM tl_phpbb_session INNER JOIN tl_member ON member_id = tl_member.id WHERE member_id='.$this->db->sql_escape($contaoUserId);
+            $sql = "SELECT tl_phpbb_session.last_active, tl_phpbb_session.ip_address, tl_member.phpbb_user_id FROM tl_phpbb_session INNER JOIN tl_member ON member_id = tl_member.id WHERE session_key='".$this->db->sql_escape($sessionKey)."'";
 
             $result = $this->db->sql_query($sql);
 
@@ -124,6 +124,13 @@ class main_listener implements EventSubscriberInterface
                     $isAdmin = $this->auth->acl_get('a_');
 
                     $result = $this->user->session_create($session['phpbb_user_id'], $isAdmin, $autologin, $viewonline);
+
+                    global $_SID;
+                    $sessionId = $_SID;
+
+                    // Save the session ID to Contao
+                    $sql = "UPDATE tl_phpbb_session SET phpbb_session_id='".$this->db->sql_escape($sessionId)."' WHERE session_key='".$this->db->sql_escape($sessionKey)."'";
+                    $this->db->sql_query($sql);
 
                     if($result === true)
                     {
